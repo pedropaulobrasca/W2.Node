@@ -1,6 +1,12 @@
 import { GameClient } from "../classes/game-client/GameClient";
-import { Header } from "../structs/Header";
+import { SHeader } from "../structs/SHeader";
 
+/**
+ * @description -> Pacote de enviar mensagem para o cliente.
+ * @param client GameClient
+ * @param mensagem Mensagem
+ *
+ */
 export class P_101 {
   public message: string;
 
@@ -11,7 +17,7 @@ export class P_101 {
   public getBuffer = () => {
     const buffer = Buffer.alloc(108);
 
-    new Header(0x101, 108).getBuffer().copy(buffer, 0, 0);
+    new SHeader(0x101, 108).getBuffer().copy(buffer, 0, 0);
 
     buffer.write(this.message, 12, this.message.length, "ascii");
 

@@ -1,5 +1,5 @@
 // struct
-export class Header {
+export class SHeader {
   // attributes
   public size: number; //			0 a 1		= 2
   public key: number; //			2			= 1

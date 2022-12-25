@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { GameClient } from "../classes/game-client/GameClient";
-import { P_101 } from "./p101D";
+import { P_101 } from "./p101";
+import { P_10E } from "./p10E";
 
 const prisma = new PrismaClient();
 
@@ -28,7 +29,13 @@ export class P_20D {
     });
 
     if (password !== user.password) {
-      P_101.send(client, "Senha inválida!");
+      return P_101.send(client, "Senha inválida!");
     }
+
+    client.state = "password";
+    client.user = user;
+
+    P_101.send(client, "Login");
+    P_10E.send(client);
   };
 }
