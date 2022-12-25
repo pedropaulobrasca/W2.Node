@@ -1,7 +1,9 @@
 // classes
 // packets
 
+import { P_101 } from "../../packets/p101";
 import { P_20D } from "../../packets/p20D";
+import { P_FDE } from "../../packets/pFDE";
 import { GameClient } from "../game-client/GameClient";
 
 export const packet = new (class {
@@ -24,7 +26,7 @@ export const packet = new (class {
       case "password":
         switch (pakcetID) {
           case 0xfde:
-            // new P_FDE(buffer).validateNumeric(client);
+            new P_FDE(buffer).validateNumeric(client);
             break;
 
           default:
