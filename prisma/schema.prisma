@@ -11,9 +11,19 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
+  id        Int          @id @default(autoincrement())
+  username  String       @unique
   password  String
   numeric   String?
-  createdAt DateTime @default(now())
+  createdAt DateTime     @default(now())
+  character Characters[]
+}
+
+model Characters {
+  id       Int     @id @default(autoincrement())
+  charname String  @unique
+  race     String
+  gold     String?
+  user     User    @relation(fields: [userId], references: [id])
+  userId   Int
 }

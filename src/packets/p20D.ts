@@ -35,7 +35,6 @@ export class P_20D {
     client.state = "password";
     client.user = user;
 
-    P_101.send(client, "Login");
     P_10E.send(client);
   };
 }
