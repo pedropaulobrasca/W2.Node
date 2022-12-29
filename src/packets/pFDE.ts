@@ -28,15 +28,16 @@ export class P_FDE {
       });
 
       P_101.send(client, "Senha numérica definida com sucesso!");
+      return;
     } else if (client.user.numeric !== numeric) {
-      client.send(signals.FDF);
+      client.send(new SHeader(0xfdf, 12).getBuffer());
       return;
     } else {
       P_101.send(client, "Seja bem-vindo!");
+      client.state = "characters";
+      client.send(new SHeader(0xfde, 12).getBuffer());
+      return;
     }
-
-    client.state = "characters";
-    client.send(signals.FDE);
   };
 
   public changeNumeric = async (client: GameClient) => {
@@ -55,11 +56,6 @@ export class P_FDE {
 
     P_101.send(client, "Senha numérica alterada com sucesso!");
 
-    client.send(signals.FDE);
+    client.send(new SHeader(0xfde, 12).getBuffer());
   };
 }
-
-const signals = {
-  FDF: new SHeader(0xfdf, 12).getBuffer(),
-  FDE: new SHeader(0xfde, 12).getBuffer(),
-};
