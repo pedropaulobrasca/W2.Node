@@ -60,7 +60,7 @@ export class P_10E {
       buffer.writeUInt32LE(character.experiencia, 740 + this.count); // xp
       this.count += 4;
     });
-    
+
     return buffer;
   };
 
@@ -70,14 +70,3 @@ export class P_10E {
     client.send(await buffer);
   };
 }
-
-// if (this.characters.length > 0) {
-//   new SCharacterList(this.characters.length, this.characters)
-//     .getCharacterNameListBuffer()
-//     .copy(buffer, 28);
-//   new SCharacterList(this.characters.length, this.characters)
-//     .getStatusCharlistBuffer()
-//     .copy(buffer, 92);
-//   buffer.writeUInt32LE(this.characters[0].gold, 724); // gold
-//   buffer.writeUInt32LE(this.characters[0].experiencia, 740); // xp
-// }
