@@ -3,14 +3,17 @@
 import { GameClient } from "../classes/game-client/GameClient";
 import { SHeader } from "../structs/SHeader";
 import { Characters, PrismaClient, User } from "@prisma/client";
+import { SCharacterList } from "../structs/SCharacterList";
 
 const prisma = new PrismaClient();
 
 export class P_10E {
   public characters: Characters[];
+  public count: number;
 
   public constructor() {
     this.characters = [];
+    this.count = 0;
   }
 
   public getBuffer = async (client: GameClient) => {
@@ -23,25 +26,41 @@ export class P_10E {
 
     new SHeader(0x10e, 1816, 30002).getBuffer().copy(buffer, 0, 0);
 
-    buffer.write("00000000", 12, "00000000".length, "ascii"); // unk1
-    buffer.write(this.characters[0].charname, 28, 12, "ascii"); // char 1
-    // buffer.write("Pedro2", 44, 12, "ascii"); // char 2
-    // buffer.write("Pedro3", 60, 12, "ascii"); // char 3
-    // buffer.write("Pedro4", 76, 12, "ascii"); // char 4
-    buffer.writeInt16LE(this.characters[0].level, 92); // level
-    buffer.writeUInt16LE(this.characters[0].defesa, 94); // defesa base
-    buffer.writeUInt16LE(this.characters[0].ataque, 96); // ataque base
-    // buffer.writeUInt16LE(32, 98); // ataque base
-    buffer.writeUInt16LE(this.characters[0].forca, 108);
-    buffer.writeUInt16LE(this.characters[0].inteligencia, 110);
-    buffer.writeUInt16LE(this.characters[0].destreza, 112);
-    buffer.writeUInt16LE(this.characters[0].constituicao, 114);
-    buffer.writeUInt8(this.characters[0].aprendizagem0, 116);
-    buffer.writeUInt8(this.characters[0].aprendizagem1, 117);
-    buffer.writeUInt8(this.characters[0].aprendizagem2, 118);
-    buffer.writeUInt8(this.characters[0].aprendizagem3, 119);
-    buffer.writeUInt32LE(this.characters[0].gold, 724); // gold
-    buffer.writeUInt32LE(this.characters[0].experiencia, 740); // xp
+    buffer[12];
+
+    this.characters.map((character) => {
+      buffer.write(character.charname, 28 + this.count, 12, "ascii");
+      this.count += 16;
+    });
+
+    this.count = 0;
+    this.characters.map((character) => {
+      buffer.writeInt16LE(character.level, 92 + this.count); // level
+      buffer.writeUInt16LE(character.defesa, 94 + this.count); // defesa base
+      buffer.writeUInt16LE(character.ataque, 96 + this.count); // ataque base
+      buffer.writeUInt16LE(character.forca, 108 + this.count);
+      buffer.writeUInt16LE(character.inteligencia, 110 + this.count);
+      buffer.writeUInt16LE(character.destreza, 112 + this.count);
+      buffer.writeUInt16LE(character.constituicao, 114 + this.count);
+      buffer.writeUInt8(character.aprendizagem0, 116 + this.count);
+      buffer.writeUInt8(character.aprendizagem1, 117 + this.count);
+      buffer.writeUInt8(character.aprendizagem2, 118 + this.count);
+      buffer.writeUInt8(character.aprendizagem3, 119 + this.count);
+      this.count += 28;
+    });
+
+    this.count = 0;
+    this.characters.map((character) => {
+      buffer.writeUInt32LE(character.gold, 724 + this.count); // gold
+      this.count += 4;
+    });
+
+    this.count = 0;
+    this.characters.map((character) => {
+      buffer.writeUInt32LE(character.experiencia, 740 + this.count); // xp
+      this.count += 4;
+    });
+    
     return buffer;
   };
 
@@ -51,3 +70,14 @@ export class P_10E {
     client.send(await buffer);
   };
 }
+
+// if (this.characters.length > 0) {
+//   new SCharacterList(this.characters.length, this.characters)
+//     .getCharacterNameListBuffer()
+//     .copy(buffer, 28);
+//   new SCharacterList(this.characters.length, this.characters)
+//     .getStatusCharlistBuffer()
+//     .copy(buffer, 92);
+//   buffer.writeUInt32LE(this.characters[0].gold, 724); // gold
+//   buffer.writeUInt32LE(this.characters[0].experiencia, 740); // xp
+// }
