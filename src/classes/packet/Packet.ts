@@ -16,7 +16,7 @@ export const packet = new (class {
       case "login":
         switch (pakcetID) {
           case 0x20d:
-            new P_20D(buffer).controller(client);
+            new P_20D(buffer).controller(client); // login
             break;
 
           default:
@@ -28,7 +28,7 @@ export const packet = new (class {
       case "password":
         switch (pakcetID) {
           case 0xfde:
-            new P_FDE(buffer).validateNumeric(client);
+            new P_FDE(buffer).validateNumeric(client); // 
             break;
 
           default:
@@ -40,15 +40,15 @@ export const packet = new (class {
       case "characters":
         switch (pakcetID) {
           case 0xfde:
-            new P_FDE(buffer).changeNumeric(client);
+            new P_FDE(buffer).changeNumeric(client); // numerica
             break;
 
           case 0x20f:
-            new P_20F(buffer).controller(client);
+            new P_20F(buffer).controller(client); // criar char
             break;
 
           case 0x213:
-            new P_213(buffer).controller(client);
+            new P_213(buffer).controller(client); // entrar no mundo
             break;
 
           default:

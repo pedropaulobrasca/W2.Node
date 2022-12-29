@@ -20,10 +20,22 @@ model User {
 }
 
 model Characters {
-  id       Int     @id @default(autoincrement())
-  charname String  @unique
-  race     String
-  gold     String?
-  user     User    @relation(fields: [userId], references: [id])
-  userId   Int
+  id            Int    @id @default(autoincrement())
+  charname      String @unique
+  level         Int    @default(0)
+  defesa        Int    @default(500)
+  ataque        Int    @default(500)
+  forca         Int    @default(5)
+  inteligencia  Int    @default(5)
+  destreza      Int    @default(5)
+  constituicao  Int    @default(5)
+  aprendizagem0 Int    @default(5)
+  aprendizagem1 Int    @default(5)
+  aprendizagem2 Int    @default(5)
+  aprendizagem3 Int    @default(5)
+  race          Int    @default(1)
+  gold          Int @default(100000000)
+  experiencia   Int @default(123)
+  user          User   @relation(fields: [userId], references: [id])
+  userId        Int
 }
