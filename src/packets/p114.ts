@@ -16,7 +16,7 @@ export class P_114 {
 
     buffer.writeInt16LE(2100, 12); // x
     buffer.writeInt16LE(2100, 14); // y
-    buffer.write(client.selectedCharacter.charname, 16, 17); // nome
+    buffer.write(client.selectedCharacter.charname, 16, 16); // nome
     buffer.writeInt16LE(0, 33); // direcao
     buffer.writeInt16LE(3, 35); //
     buffer.writeInt16LE(64, 37); //

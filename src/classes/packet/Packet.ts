@@ -5,6 +5,7 @@ import { P_101 } from "../../packets/p101";
 import { P_20D } from "../../packets/p20D";
 import { P_20F } from "../../packets/p20F";
 import { P_213 } from "../../packets/p213";
+import { P_366 } from "../../packets/p366";
 import { P_FDE } from "../../packets/pFDE";
 import { GameClient } from "../game-client/GameClient";
 
@@ -28,7 +29,7 @@ export const packet = new (class {
       case "password":
         switch (pakcetID) {
           case 0xfde:
-            new P_FDE(buffer).validateNumeric(client); // 
+            new P_FDE(buffer).validateNumeric(client); //
             break;
 
           default:
@@ -58,7 +59,15 @@ export const packet = new (class {
         break;
 
       case "game":
-        break;
+        switch (pakcetID) {
+          case 0x366:
+            new P_366(buffer).controller(client);
+            break;
+
+          default:
+            console.log("unk:", pakcetID.toString(16));
+            break;
+        }
     }
   };
 })();
