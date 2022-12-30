@@ -2,7 +2,7 @@ import Net from "net";
 import Crypto from "crypto";
 import { packetSecurity } from "../packet-security/PacketSecurity";
 import { packet } from "../packet/Packet";
-import { User } from "@prisma/client";
+import { Characters, User } from "@prisma/client";
 
 export class GameClient {
   private socket: Net.Socket;
@@ -11,6 +11,8 @@ export class GameClient {
     "connection";
 
   public user!: User;
+
+  public selectedCharacter!: Characters;
 
   public constructor(socket: Net.Socket) {
     this.socket = socket;
