@@ -28,12 +28,12 @@ export class P_FDE {
       });
 
       P_101.send(client, "Senha numérica definida com sucesso!");
+      client.state = "characters";
       return;
     } else if (client.user.numeric !== numeric) {
       client.send(new SHeader(0xfdf, 12).getBuffer());
       return;
     } else {
-      P_101.send(client, "Seja bem-vindo!");
       client.state = "characters";
       client.send(new SHeader(0xfde, 12).getBuffer());
       return;

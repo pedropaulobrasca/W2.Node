@@ -5,6 +5,8 @@ import { P_110 } from "./p110";
 
 const prisma = new PrismaClient();
 
+const classe = [1, 11, 21, 31];
+
 export class P_20F {
   public charname: string;
   public race: number;
@@ -29,7 +31,7 @@ export class P_20F {
       this.character = await prisma.characters.create({
         data: {
           charname,
-          race,
+          race: classe[race],
           userId: client.user.id,
         },
       });

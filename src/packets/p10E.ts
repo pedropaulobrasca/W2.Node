@@ -26,13 +26,13 @@ export class P_10E {
 
     new SHeader(0x10e, 1816, 30002).getBuffer().copy(buffer, 0, 0);
 
-    buffer[12];
-
+    // Nomes
     this.characters.map((character) => {
       buffer.write(character.charname, 28 + this.count, 12, "ascii");
       this.count += 16;
     });
 
+    // Status
     this.count = 0;
     this.characters.map((character) => {
       buffer.writeInt16LE(character.level, 92 + this.count); // level
@@ -49,12 +49,21 @@ export class P_10E {
       this.count += 28;
     });
 
+    // Items
+    this.count = 0;
+    this.characters.map((character) => {
+      buffer.writeUInt8(character.race, 204 + this.count);
+      this.count += 128;
+    });
+
+    // Golds
     this.count = 0;
     this.characters.map((character) => {
       buffer.writeUInt32LE(character.gold, 724 + this.count); // gold
       this.count += 4;
     });
 
+    // Xp
     this.count = 0;
     this.characters.map((character) => {
       buffer.writeUInt32LE(character.experiencia, 740 + this.count); // xp

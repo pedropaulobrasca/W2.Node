@@ -1,6 +1,6 @@
 // https://github.com/Rechdan/Open-WYD-Server/blob/master/Emulator/Game/Packet/Packets/P_10A.cs
 
-import { Characters, PrismaClient } from "@prisma/client";
+import { Characters, PrismaClient, User } from "@prisma/client";
 import { GameClient } from "../classes/game-client/GameClient";
 import { SHeader } from "../structs/SHeader";
 
@@ -9,25 +9,22 @@ const prisma = new PrismaClient();
 export class P_110 {
   public characters: Characters[];
   public count: number;
-  public client: GameClient | null;
-  static client: GameClient;
 
   public constructor() {
     this.characters = [];
     this.count = 0;
-    this.client = null;
   }
 
-  public getBuffer = async () => {
+  public getBuffer = async (user: User) => {
     this.characters = await prisma.characters.findMany({
       where: {
-        userId: this.client?.user.id,
+        userId: user?.id,
       },
     });
 
-    const buffer = Buffer.alloc(756);
+    const buffer = Buffer.alloc(1816);
 
-    new SHeader(0x110, 756, 30002).getBuffer().copy(buffer, 0, 0);
+    new SHeader(0x110, 1816, 30002).getBuffer().copy(buffer, 0, 0);
 
     buffer[12];
 
@@ -52,6 +49,13 @@ export class P_110 {
       this.count += 28;
     });
 
+    // Items
+    this.count = 0;
+    this.characters.map((character) => {
+      buffer.writeUInt8(character.race, 204 + this.count);
+      this.count += 128;
+    });
+
     this.count = 0;
     this.characters.map((character) => {
       buffer.writeUInt32LE(character.gold, 724 + this.count); // gold
@@ -68,8 +72,7 @@ export class P_110 {
   };
 
   public static send = async (client: GameClient) => {
-    this.client = client;
-    const buffer = new P_110().getBuffer();
+    const buffer = new P_110().getBuffer(client.user);
 
     client.send(await buffer);
   };
