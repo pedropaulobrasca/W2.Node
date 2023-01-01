@@ -6,7 +6,7 @@ export class P_364 {
   public constructor() {}
 
   public getBuffer = (client: GameClient) => {
-    const buffer = Buffer.alloc(76);
+    const buffer = Buffer.alloc(176);
 
     new SHeader(0x364, 176).getBuffer().copy(buffer, 0, 0);
 
@@ -15,6 +15,8 @@ export class P_364 {
     buffer.writeInt16LE(client.user.id, 16); // y
     buffer.write(client.selectedCharacter.charname, 18, 12); // nome
     buffer.writeUInt8(147, 30); // y
+    buffer.writeUInt8(204, 31); // y
+    buffer.writeUInt8(31, 34); // y
 
     return buffer;
   };

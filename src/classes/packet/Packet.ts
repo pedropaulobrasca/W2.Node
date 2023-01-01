@@ -64,6 +64,10 @@ export const packet = new (class {
             new P_366(buffer).controller(client);
             break;
 
+          case 0x291:
+            console.log(true);
+            break;
+
           default:
             console.log("unk:", pakcetID.toString(16));
             break;

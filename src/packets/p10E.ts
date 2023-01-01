@@ -3,7 +3,6 @@
 import { GameClient } from "../classes/game-client/GameClient";
 import { SHeader } from "../structs/SHeader";
 import { Characters, PrismaClient, User } from "@prisma/client";
-import { SCharacterList } from "../structs/SCharacterList";
 
 const prisma = new PrismaClient();
 

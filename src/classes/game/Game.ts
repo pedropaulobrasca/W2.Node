@@ -2,6 +2,7 @@ import Net from "net";
 import { GameClient } from "../game-client/GameClient";
 import fs from "fs";
 import path from "path";
+import { P_101 } from "../../packets/p101";
 
 export class Game {
   public clients: GameClient[] = [];
@@ -38,6 +39,9 @@ export class Game {
             const { event, number } = JSON.parse(data.toString("ascii"));
             console.log(`O evento esta ${event}`);
             console.log(`O numero e: ${number}`);
+            this.clients.map((client) => {
+              P_101.send(client, "Arquivo config foi alterado");
+            });
           }
         );
       });

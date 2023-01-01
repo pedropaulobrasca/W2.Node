@@ -26,6 +26,6 @@ export class P_213 {
     client.state = "game";
     P_666.send(client);
     await P_114.send(client);
-    await P_364.send(client);
+    // P_364.send(client);
   };
 }
